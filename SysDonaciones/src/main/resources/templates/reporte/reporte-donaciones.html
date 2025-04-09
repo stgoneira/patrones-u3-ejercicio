@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es" data-th-replace="~{layout :: layout(~{:: //title}, ~{:: //main})}">
+
+<head>
+	<title>Reporte de Donaciones </title>
+</head>
+
+<body class="text-center">
+	<main class="w-100 m-auto py-5 text-center" style="max-width: 800px;">
+		<img class="mb-4 w-25" src="/images/logo.png" alt="Logo">
+		<h1 class="h3 mb-3 fw-normal">Reporte de Donaciones</h1>
+		<div class="d-flex justify-content-center">
+			<embed type="application/pdf" src="/reporte/raw" width="800" height="600" title="Reporte"
+				class="mt-5" />
+		</div>
+	</main>
+
+</body>
+
+</html>
