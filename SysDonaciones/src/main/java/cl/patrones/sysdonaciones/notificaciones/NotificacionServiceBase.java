@@ -21,4 +21,9 @@ abstract public class NotificacionServiceBase implements NotificacionService {
 	public void donacionRegistrada(Donacion donacion) {
 		notificar(donacion.getId().toString());		
 	}
+
+	public NotificacionService getDecorado() {
+		return decorado;
+	}
+	
 }

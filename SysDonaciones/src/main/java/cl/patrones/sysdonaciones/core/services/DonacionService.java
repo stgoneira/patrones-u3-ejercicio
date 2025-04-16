@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import cl.patrones.sysdonaciones.core.entities.Donacion;
+import cl.patrones.sysdonaciones.core.exceptions.MontoNoValidoException;
 import cl.patrones.sysdonaciones.core.exceptions.SocioInexistenteException;
 import cl.patrones.sysdonaciones.core.observers.DonacionObserver;
 
@@ -14,7 +15,7 @@ public interface DonacionService {
 	
 	public Optional<Donacion> obtenerDonacion(String transaccionId);
 	
-	public UUID registrarDonacionAnonima(File comprobante, Long monto);
+	public UUID registrarDonacionAnonima(File comprobante, Long monto)  throws MontoNoValidoException;
 	
 	public UUID registrarMensualidadSocio(File comprobante, Long monto, String rut) throws SocioInexistenteException;
 	

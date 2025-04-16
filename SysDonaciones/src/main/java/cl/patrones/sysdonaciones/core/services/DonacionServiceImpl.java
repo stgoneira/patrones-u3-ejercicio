@@ -16,12 +16,16 @@ import cl.patrones.sysdonaciones.core.entities.Causa;
 import cl.patrones.sysdonaciones.core.entities.Contribuyente;
 import cl.patrones.sysdonaciones.core.entities.Contribuyente.TipoContribuyente;
 import cl.patrones.sysdonaciones.core.entities.Donacion;
+import cl.patrones.sysdonaciones.core.exceptions.MontoNoValidoException;
 import cl.patrones.sysdonaciones.core.exceptions.SocioInexistenteException;
 import cl.patrones.sysdonaciones.core.observers.DonacionObserver;
 import cl.patrones.sysdonaciones.core.repositories.CausaRepository;
 import cl.patrones.sysdonaciones.core.repositories.ContribuyenteRepository;
 import cl.patrones.sysdonaciones.core.repositories.DonacionRepository;
 
+/**
+ * Espera un archivo temporal como comprobante, luego de copiarlo a la ruta definitiva lo elimina. 
+ */
 @Service
 public class DonacionServiceImpl implements DonacionService {
 
@@ -79,7 +83,12 @@ public class DonacionServiceImpl implements DonacionService {
 		return donacionRepository.findById(id);
 	}
 	
-	public UUID registrarDonacionAnonima(File comprobante, Long monto) {		
+	public UUID registrarDonacionAnonima(File comprobante, Long monto) throws MontoNoValidoException {
+		var minimo = 5000L;
+		var maximo = 5_000_000L;
+		if( monto < minimo || monto > maximo) {
+			throw new MontoNoValidoException(monto, minimo, maximo);
+		}
 		Optional<Causa> causa = causaRepository.findByNombre("Donaciones Anónimas");
 		var donacion = new Donacion(monto, null, causa.get(), comprobante.toURI().toString());
 		donacion = donacionRepository.save(donacion);
@@ -116,7 +125,13 @@ public class DonacionServiceImpl implements DonacionService {
 		return donacion.getId();
 	}
 	
-	public UUID registrarDonacionGeneral(File comprobante, Long monto, String rut, String nombre, String email, String telefono) {
+	public UUID registrarDonacionGeneral(
+			File comprobante, 
+			Long monto, 
+			String rut, 
+			String nombre, 
+			String email, 
+			String telefono) {
 		var optContribuyente = contribuyenteRepository.findByRut(rut);
 		Contribuyente contribuyente;
 		if(optContribuyente.isEmpty()) {

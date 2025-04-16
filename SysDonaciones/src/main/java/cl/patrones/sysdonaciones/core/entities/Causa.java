@@ -20,6 +20,14 @@ public class Causa {
 	public Causa() {
 		super();
 	}
+	
+	public Causa(Long id, String nombre, String descripcion, String imagen) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.descripcion = descripcion;
+		this.imagen = imagen;
+	}
 
 	public String getNombre() {
 		return nombre;

@@ -24,7 +24,7 @@ public class ReporteServiceProxyCache implements ReporteService {
 		this.reporteService = reporteService;
 	}
 
-	private String todayFilename() {
+	public String todayFilename() {
 		var hoy = LocalDate.now();
 		var formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
 		return formatter.format(hoy);
